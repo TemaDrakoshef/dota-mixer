@@ -1,10 +1,9 @@
 from fastapi import APIRouter, HTTPException
 
+from app.api.deps import OpenDotaDep
 from app.models import HeroesOut, HeroesStatsOut, HeroOut, HeroStatsOut
-from app.opendota.api import OpenDotaAPI
 
 router = APIRouter()
-open_dota = OpenDotaAPI()
 
 
 def edit_image_url(hero: HeroOut | HeroStatsOut) -> HeroOut | HeroStatsOut:
@@ -24,7 +23,7 @@ def edit_image_url(hero: HeroOut | HeroStatsOut) -> HeroOut | HeroStatsOut:
 
 
 @router.get("/", response_model=HeroesOut)
-async def read_heroes() -> HeroesOut:
+async def read_heroes(open_dota: OpenDotaDep) -> HeroesOut:
     """
     Retrieve heroes.
     """
@@ -44,7 +43,7 @@ async def read_heroes() -> HeroesOut:
 
 
 @router.get("/{hero_id}", response_model=HeroStatsOut)
-async def read_hero(hero_id: int) -> HeroStatsOut:
+async def read_hero(hero_id: int, open_dota: OpenDotaDep) -> HeroStatsOut:
     """
     Get hero by ID.
     """
@@ -60,7 +59,7 @@ async def read_hero(hero_id: int) -> HeroStatsOut:
 
 
 @router.get("/stats/", response_model=HeroesStatsOut)
-async def read_heroes_stats() -> HeroesStatsOut:
+async def read_heroes_stats(open_dota: OpenDotaDep) -> HeroesStatsOut:
     """
     Get heroes stats.
     """
