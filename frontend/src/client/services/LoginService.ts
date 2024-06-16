@@ -94,4 +94,27 @@ requestBody: NewPassword,
         });
     }
 
+    /**
+     * Recover Password Html Content
+     * HTML Content for Password Recovery
+     * @returns string Successful Response
+     * @throws ApiError
+     */
+    public static recoverPasswordHtmlContent({
+email,
+}: {
+email: string,
+}): CancelablePromise<string> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/password-recovery-html-content/{email}',
+            path: {
+                'email': email,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
 }
