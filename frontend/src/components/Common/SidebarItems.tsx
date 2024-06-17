@@ -1,6 +1,12 @@
 import React from 'react'
 import { Box, Flex, Icon, Text, useColorModeValue } from '@chakra-ui/react'
-import { FiBriefcase, FiHome, FiSettings, FiUsers } from 'react-icons/fi'
+import {
+  // FiBriefcase,
+  FiCodesandbox,
+  FiHome,
+  // FiSettings,
+  FiUsers,
+} from 'react-icons/fi'
 import { Link } from '@tanstack/react-router'
 import { useQueryClient } from 'react-query'
 
@@ -8,8 +14,9 @@ import { UserOut } from '../../client'
 
 const items = [
   { icon: FiHome, title: 'Dashboard', path: '/' },
-  { icon: FiBriefcase, title: 'Items', path: '/items' },
-  { icon: FiSettings, title: 'User Settings', path: '/settings' },
+  { icon: FiCodesandbox, title: 'Heroes', path: '/heroes' },
+  // { icon: FiBriefcase, title: 'Items', path: '/items' },
+  // { icon: FiSettings, title: 'User Settings', path: '/settings' },
 ]
 
 interface SidebarItemsProps {
