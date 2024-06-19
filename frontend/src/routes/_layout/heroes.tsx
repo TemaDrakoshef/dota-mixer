@@ -4,19 +4,11 @@ import {
   Flex,
   Spinner,
   useMediaQuery,
-  useColorModeValue,
-  Card,
-  CardBody,
-  Stack,
-  Box,
-  Image,
-  Text,
 } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { ApiError, HeroesService } from '../../client'
 import useCustomToast from '../../hooks/useCustomToast'
 import { useQuery } from 'react-query'
-import { useState } from 'react'
 import HeroListComponent from '../../components/Heroes/HeroListComponent'
 import SettingsComponent from '../../components/Heroes/SettingsComponent'
 import { heroesByAttribute } from '../../utils/heroesUtils'
@@ -26,7 +18,6 @@ export const Route = createFileRoute('/_layout/heroes')({
 })
 
 function HeroesFunc() {
-  const textColor = useColorModeValue('ui.dark', 'ui.white')
   const showToast = useCustomToast()
   const {
     data: heroes,
@@ -42,8 +33,6 @@ function HeroesFunc() {
 
   // Use useMediaQuery to detect mobile view
   const [isMobile] = useMediaQuery('(max-width: 768px)')
-
-  const [randomHero, setRandomHero] = useState<any | null>(null)
 
   return (
     <>
@@ -93,36 +82,7 @@ function HeroesFunc() {
               </Heading>
               <SettingsComponent
                 heroes={heroes}
-                setRandomHero={setRandomHero}
               />
-
-              {randomHero && (
-                <Card mt="4" id="generate-hero-card">
-                  <Stack>
-                    <CardBody>
-                      <Heading size="lg" textTransform="uppercase" mb="4">
-                        {randomHero.localized_name}
-                      </Heading>
-                      <Image
-                        src={randomHero.img}
-                        alt={randomHero.localized_name}
-                        borderRadius={6}
-                        width="75%"
-                      />
-
-                      <Box mt="2" fontSize="lg" color={textColor}>
-                        <Text>Attack Type: {randomHero.attack_type}</Text>
-                        <Text>
-                          Roles:{' '}
-                          {randomHero.roles
-                            .map((role: string) => role)
-                            .join(', ')}
-                        </Text>
-                      </Box>
-                    </CardBody>
-                  </Stack>
-                </Card>
-              )}
             </Container>
           </Flex>
         )
