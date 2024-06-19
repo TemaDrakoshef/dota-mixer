@@ -13,14 +13,14 @@ const HeroListComponent: React.FC<HeroListProps> = ({ heroesByAttribute }) => {
           <Heading
             size="lg"
             textAlign={{ base: 'center', md: 'center' }}
-            mt='2'
-            mb='1'
+            mt="2"
+            mb="1"
           >
             {attributeName}
           </Heading>
           <SimpleGrid
-            spacing={4}
-            templateColumns="repeat(auto-fill, minmax(150px, 1fr))"
+            spacing={2}
+            templateColumns="repeat(auto-fill, minmax(115px, 1fr))"
           >
             {heroes.map((hero) => (
               <HeroCard key={hero.name} hero={hero} />
