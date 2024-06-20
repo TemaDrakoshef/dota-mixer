@@ -12,16 +12,19 @@ import {
   Spinner,
   Image,
   Text,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { FiPlus, FiMinus, FiRefreshCcw } from 'react-icons/fi'
 import { useState } from 'react'
+import { HeroOut, HeroesOut } from '../../client'
 
 interface SettingsComponentProps {
-  heroes: any // Replace 'any' with the actual hero data type
+  heroes: HeroesOut // Replace 'any' with the actual hero data type
 }
 
 const SettingsComponent: React.FC<SettingsComponentProps> = ({ heroes }) => {
   const toast = useToast()
+  const textColor = useColorModeValue('ui.dark', 'ui.white')
 
   const [isLoading, setIsLoading] = useState(false)
   const [randomHero, setRandomHeroInternal] = useState<any | null>(null)
@@ -29,14 +32,32 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({ heroes }) => {
   const [selectedAttackTypes, setSelectedAttackTypes] = useState<string[]>([])
   const [selectedAttributes, setSelectedAttributes] = useState<string[]>([])
 
+  const attributes: { [key: string]: string } = {
+    agi: 'Agility',
+    int: 'Intelligence',
+    str: 'Strength',
+    all: 'Universal',
+  }
+  const roles = [
+    'Carry',
+    'Disabler',
+    'Durable',
+    'Escape',
+    'Initiator',
+    'Nuker',
+    'Pusher',
+    'Support',
+  ]
+  const attack_type = ['Melee', 'Ranged']
+
   const generateRandomHero = () => {
     setIsLoading(true)
     if (heroes?.data) {
-      const filteredHeroes = heroes.data.filter((hero: any) => {
+      const filteredHeroes = heroes.data.filter((hero: HeroOut) => {
         // Filter by roles
         if (
           selectedRoles.length > 0 &&
-          !selectedRoles.includes(hero.roles[0])
+          !hero.roles.some((role) => selectedRoles.includes(role))
         ) {
           return false
         }
@@ -52,14 +73,7 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({ heroes }) => {
         // Filter by attributes
         if (
           selectedAttributes.length > 0 &&
-          !selectedAttributes.includes(
-            {
-              agi: 'Agility',
-              all: 'Universal',
-              str: 'Strength',
-              int: 'Intelligence',
-            }[hero.primary_attr],
-          )
+          !selectedAttributes.includes(attributes[hero.primary_attr])
         ) {
           return false
         }
@@ -91,20 +105,6 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({ heroes }) => {
     setIsLoading(false)
   }
 
-  const roles = [
-    'Carry',
-    'Initiator',
-    'Durable',
-    'Disabler',
-    'Support',
-    'Nuker',
-    'Pusher',
-    'Escape',
-  ]
-
-  const attack_type = ['Melee', 'Ranged']
-  const attributes = ['Strength', 'Agility', 'Intelligence', 'Universal']
-
   return (
     <Box>
       <Card mt="4">
@@ -112,7 +112,7 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({ heroes }) => {
           <Stack divider={<StackDivider />} spacing="4" width={'full'}>
             <FilterSection
               title="Attributes"
-              items={attributes}
+              items={Object.values(attributes)}
               columns={{ base: 2, md: 1, lg: 2, xl: 2, '2xl': 3 }}
               selectedItems={selectedAttributes}
               setSelectedItems={setSelectedAttributes}
@@ -165,8 +165,8 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({ heroes }) => {
                 width="75%"
               />
 
-              <Box mt="2" fontSize="lg" color="ui.main">
-                <Text>Attack Type: {randomHero.primary_attr}</Text>
+              <Box mt="2" fontSize="lg" color={textColor} fontWeight={500}>
+                <Text>Attribute: {attributes[randomHero.primary_attr]}</Text>
                 <Text>Attack Type: {randomHero.attack_type}</Text>
                 <Text>
                   Roles:{' '}
