@@ -1,5 +1,5 @@
 from collections.abc import Generator
-from typing import Annotated
+from typing import Annotated, AsyncGenerator
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -11,6 +11,7 @@ from app.core import security
 from app.core.config import settings
 from app.core.db import engine
 from app.models import TokenPayload, User
+from app.opendota.api import OpenDotaAPI
 
 reusable_oauth2 = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/login/access-token"
@@ -54,3 +55,14 @@ def get_current_active_superuser(current_user: CurrentUser) -> User:
             status_code=400, detail="The user doesn't have enough privileges"
         )
     return current_user
+
+
+async def get_opendota_session() -> AsyncGenerator[OpenDotaAPI, None]:
+    opendota_client = OpenDotaAPI()
+    try:
+        yield opendota_client
+    finally:
+        await opendota_client.close()
+
+
+OpenDotaDep = Annotated[OpenDotaAPI, Depends(get_opendota_session)]

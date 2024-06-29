@@ -1,8 +1,7 @@
-version: "3.3"
 services:
 
   proxy:
-    image: traefik:v2.3
+    image: traefik:3.0
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
@@ -37,6 +36,9 @@ services:
       # Dummy https-redirect middleware that doesn't really redirect, only to
       # allow running it locally
       - traefik.http.middlewares.https-redirect.contenttype.autodetect=false
+    networks:
+      - traefik-public
+      - default
 
   db:
     restart: "no"

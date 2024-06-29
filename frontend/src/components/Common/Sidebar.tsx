@@ -16,7 +16,8 @@ import {
 import { FiLogOut, FiMenu } from 'react-icons/fi'
 import { useQueryClient } from 'react-query'
 
-import Logo from '../../assets/images/fastapi-logo.svg'
+import LogoDark from '../../assets/images/dark-logo.png'
+import LogoLight from '../../assets/images/light-logo.png'
 import { UserOut } from '../../client'
 import useAuth from '../../hooks/useAuth'
 import SidebarItems from './SidebarItems'
@@ -33,6 +34,8 @@ const Sidebar: React.FC = () => {
   const handleLogout = async () => {
     logout()
   }
+
+  const logoSrc = useColorModeValue(LogoLight, LogoDark); // Dynamically choose logo based on color mode
 
   return (
     <>
@@ -53,7 +56,7 @@ const Sidebar: React.FC = () => {
           <DrawerBody py={8}>
             <Flex flexDir="column" justify="space-between">
               <Box>
-                <Image src={Logo} alt="logo" p={6} />
+                <Image src={logoSrc} alt="logo" p={6} /> {/* Use dynamic logo */}
                 <SidebarItems onClose={onClose} />
                 <Flex
                   as="button"
@@ -94,7 +97,7 @@ const Sidebar: React.FC = () => {
           borderRadius={12}
         >
           <Box>
-            <Image src={Logo} alt="Logo" w="180px" maxW="2xs" p={6} />
+            <Image src={logoSrc} alt="Logo" w="280px" maxW="2xs" p={6} /> {/* Use dynamic logo */}
             <SidebarItems />
           </Box>
           {currentUser?.email && (

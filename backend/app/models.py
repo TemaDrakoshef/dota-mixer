@@ -1,3 +1,5 @@
+from enum import Enum
+
 from sqlmodel import Field, Relationship, SQLModel
 
 
@@ -111,3 +113,92 @@ class TokenPayload(SQLModel):
 class NewPassword(SQLModel):
     token: str
     new_password: str
+
+
+class AttackType(Enum):
+    melee: str = "Melee"
+    ranged: str = "Ranged"
+
+
+class PrimaryAttr(Enum):
+    agi: str = "agi"
+    all_: str = "all"
+    str_: str = "str"
+    int_: str = "int"
+
+
+class Role(Enum):
+    carry = "Carry"
+    initiator = "Initiator"
+    durable = "Durable"
+    disabler = "Disabler"
+    support = "Support"
+    nuker = "Nuker"
+    pusher = "Pusher"
+    escape = "Escape"
+
+
+class HeroBase(SQLModel):
+    id: int
+    name: str
+    localized_name: str
+    primary_attr: str
+    attack_type: AttackType
+    roles: list[Role]
+    legs: int
+
+
+class HeroOut(HeroBase):
+    img: str | None = None
+    icon: str | None = None
+
+
+class HeroesOut(SQLModel):
+    data: list[HeroOut]
+    count: int
+
+
+class HeroStatsOut(HeroBase):
+    img: str
+    icon: str
+    base_health: float
+    base_health_regen: float
+    base_mana: float
+    base_mana_regen: float
+    base_armor: float
+    base_mr: float
+    base_attack_min: float
+    base_attack_max: float
+    base_str: float
+    base_agi: float
+    base_int: float
+    str_gain: float
+    agi_gain: float
+    int_gain: float
+    attack_range: float
+    projectile_speed: float
+    attack_rate: float
+    base_attack_time: float
+    attack_point: float
+    move_speed: float
+    turn_rate: float | None = None
+    cm_enabled: float
+    day_vision: float
+    night_vision: float
+    localized_name: str
+    turbo_picks: int | float | None = None
+    turbo_picks_trend: list[int] | None = None
+    turbo_wins: int | None = None
+    turbo_wins_trend: list[int] | None = None
+    pro_pick: int | None = None
+    pro_win: int | None = None
+    pro_ban: int | None = None
+    pub_pick: int | None = None
+    pub_pick_trend: list[int] | None = None
+    pub_win: int | None = None
+    pub_win_trend: list[int] | None = None
+
+
+class HeroesStatsOut(SQLModel):
+    data: list[HeroStatsOut]
+    count: int

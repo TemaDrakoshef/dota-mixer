@@ -11,28 +11,6 @@ import { request as __request } from '../core/request';
 export class UtilsService {
 
     /**
-     * Test Celery
-     * Test Celery worker.
-     * @returns Message Successful Response
-     * @throws ApiError
-     */
-    public static testCelery({
-requestBody,
-}: {
-requestBody: Message,
-}): CancelablePromise<Message> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/utils/test-celery/',
-            body: requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
      * Test Email
      * Test emails.
      * @returns Message Successful Response

@@ -13,6 +13,7 @@ import {
   InputRightElement,
   Link,
   useBoolean,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import {
   Link as RouterLink,
@@ -21,7 +22,8 @@ import {
 } from '@tanstack/react-router'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import Logo from '../assets/images/fastapi-logo.svg'
+import LogoDark from '../assets/images/dark-logo.png' // Import dark logo
+import LogoLight from '../assets/images/light-logo.png' // Import light logo
 import { ApiError } from '../client'
 import { Body_login_login_access_token as AccessToken } from '../client/models/Body_login_login_access_token'
 import useAuth, { isLoggedIn } from '../hooks/useAuth'
@@ -63,6 +65,8 @@ function Login() {
     }
   }
 
+  const logoSrc = useColorModeValue(LogoLight, LogoDark) // Dynamically choose logo based on color mode
+
   return (
     <>
       <Container
@@ -76,7 +80,7 @@ function Login() {
         centerContent
       >
         <Image
-          src={Logo}
+          src={logoSrc} // Use dynamic logo
           alt="FastAPI logo"
           height="auto"
           maxW="2xs"
